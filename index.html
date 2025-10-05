@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco Domes on Mars | NASA Space Apps Challenge</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use Inter font family -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117; /* Dark space background */
+            color: #ffffff;
+        }
+    </style>
+    <script>
+        // Data mapping concepts to their images and content titles
+        const concepts = {
+            'Structural System': {
+                title: 'Engineering the Structure',
+                imageUrl: 'str.jpg', // Placeholder - Page 3 content
+                description:'hi'
+                // Replace with the actual image content path for Page 3 from your PDF if available, otherwise placeholders are necessary.
+            },
+            'Atmospheric Control': {
+                title: 'Creating a Breathable Atmosphere',
+                imageUrl: 'Atmospheric control.jpg', // Placeholder - Page 4 content
+            },
+            'Radiation Protection': {
+                title: 'Shielding Against Radiation',
+                imageUrl: 'Radiation prtection.jpg', // Placeholder - Page 5 content (top half)
+            },
+            'Energy System': {
+                title: 'Powering Life on Mars',
+                imageUrl: 'energy system.jpg', // Placeholder - Page 6 content
+            },
+            'Water Cycle': {
+                title: 'Closing the Water Loop',
+                imageUrl: 'water cycle.jpg', // Placeholder - Page 7 content
+            },
+            'Food Production': {
+                title: 'Growing Food in Greenhouses',
+                imageUrl: 'food pro.jpg', // Placeholder - Page 8 content
+            },
+            'Temperature Regulation': {
+                title: 'Temperature Control Systems',
+                imageUrl: 'human.jpg', // Placeholder - Page 5 content (bottom half)
+            },
+            'Human Habitats & Life Support': {
+                title: 'A Living Bubble on an Alien World',
+                imageUrl: 'temp.jpg', // Placeholder - Page 2 content
+            },
+            'Video Presentation': {
+                title: 'Our Vision: Eco-Domes on Mars',
+                // Use a standard YouTube embed link structure, replace YOUTUBE_VIDEO_ID
+                videoUrl: 'over.mp4', // Placeholder: Rick Astley - Never Gonna Give You Up
+            }
+        };
+
+        // Function to display the selected content
+        function displayConcept(conceptName) {
+            const displayArea = document.getElementById('display-area');
+            const data = concepts[conceptName];
+
+            let contentHTML = '';
+
+            // Handle the video separately
+            if (conceptName === 'Video Presentation') {
+                contentHTML = `
+                    <div class="w-full aspect-video p-4 bg-gray-900 rounded-xl shadow-2xl">
+                        <h2 class="text-xl font-bold mb-4 text-sky-400">${data.title}</h2>
+                        <iframe 
+                            class="w-full h-full rounded-lg" 
+                            src="${data.videoUrl}" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                        <p class="mt-4 text-sm text-gray-400">NOTE: Please change the YouTube video ID in the HTML source code to your actual presentation video.</p>
+                    </div>
+                `;
+            } else {
+                // Handle the image concepts
+                contentHTML = `
+                    <div class="p-4 sm:p-6 bg-gray-900 rounded-xl shadow-2xl w-full">
+                        <h2 class="text-2xl font-extrabold mb-4 text-sky-400">${data.title}</h2>
+                        <img 
+                            id="str"
+                            src="${data.imageUrl}" 
+                            alt="${conceptName} Diagram" 
+                            class="w-full h-auto object-contain rounded-lg border-2 border-sky-600 transition-opacity duration-300"
+                            onerror="this.onerror=null; this.src='https://placehold.co/800x600/ff0000/ffffff?text=Error:+Image+Placeholder+Failed'; document.getElementById('image-note').textContent='(Image failed to load. Showing a colored placeholder.)';"
+                        >
+                        <p id="image-note" class="mt-3 text-sm text-gray-400">(This image represents the ${conceptName} slide from your presentation.)</p>
+                    </div>
+                `;
+            }
+            
+            displayArea.innerHTML = contentHTML;
+
+            // Update button styles: Highlight the active button
+            document.querySelectorAll('.concept-btn').forEach(btn => {
+                btn.classList.remove('bg-sky-600', 'ring-2', 'ring-sky-400');
+                btn.classList.add('bg-gray-700', 'hover:bg-sky-700');
+            });
+            const activeBtn = document.getElementById(`btn-${conceptName.replace(/[^a-zA-Z0-9]/g, '-')}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-gray-700', 'hover:bg-sky-700');
+                activeBtn.classList.add('bg-sky-600', 'ring-2', 'ring-sky-400');
+            }
+        }
+        
+        // Initial setup on window load
+        window.onload = () => {
+            // Display the first concept by default
+            displayConcept('Structural System');
+        };
+    </script>
+</head>
+<body class="min-h-screen p-4 sm:p-8">
+
+    <header class="text-center mb-8 sm:mb-12">
+        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-teal-400">
+            Eco Domes on Mars
+        </h1>
+        <p class="text-lg text-gray-300 mt-2">NASA Space Apps Challenge Project: Engineering a Self-Sustaining Habitat</p>
+    </header>
+
+    <main class="max-w-7xl mx-auto">
+        
+        <!-- Concept Buttons Section -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4 text-center text-gray-200">System Overview</h2>
+            <div class="flex flex-wrap justify-center gap-3">
+                
+                <!-- Loop through the concepts to create buttons -->
+                <button 
+                    id="btn-Structural-System" 
+                    class="concept-btn px-4 py-2 bg-gray-700 text-white text-sm font-medium rounded-full transition duration-300 shadow-lg hover:bg-sky-700 focus:outline-none focus:ring-4 focus:ring-sky-500 focus:ring-opacity-50 whitespace-nowrap" 
+                    onclick="displayConcept('Structural System')">Structural System
+                </button>
+                
+                <button 
+                    id="btn-Atmospheric-Control" 
+                    class="concept-btn px-4 py-2 bg-gray-700 text-white text-sm font-medium rounded-full transition duration-300 shadow-lg hover:bg-sky-700 focus:outline-none focus:ring-4 focus:ring-sky-500 focus:ring-opacity-50 whitespace-nowrap" 
+                    onclick="displayConcept('Atmospheric Control')">Atmospheric Control
+                </button>
+
+                <button 
+                    id="btn-Radiation-Protection" 
+                    class="concept-btn px-4 py-2 bg-gray-700 text-white text-sm font-medium rounded-full transition duration-300 shadow-lg hover:bg-sky-700 focus:outline-none focus:ring-4 focus:ring-sky-500 focus:ring-opacity-50 whitespace-nowrap" 
+                    onclick="displayConcept('Radiation Protection')">Radiation Protection
+                </button>
+                
+                <button 
+                    id="btn-Energy-System" 
+                    class="concept-btn px-4 py-2 bg-gray-700 text-white text-sm font-medium rounded-full transition duration-300 shadow-lg hover:bg-sky-700 focus:outline-none focus:ring-4 focus:ring-sky-500 focus:ring-opacity-50 whitespace-nowrap" 
+                    onclick="displayConcept('Energy System')">Energy System
+                </button>
+                
+                <button 
+                    id="btn-Water-Cycle" 
+                    class="concept-btn px-4 py-2 bg-gray-700 text-white text-sm font-medium rounded-full transition duration-300 shadow-lg hover:bg-sky-700 focus:outline-none focus:ring-4 focus:ring-sky-500 focus:ring-opacity-50 whitespace-nowrap" 
+                    onclick="displayConcept('Water Cycle')">Water Cycle
+                </button>
+                
+                <button 
+                    id="btn-Food-Production" 
+                    class="concept-btn px-4 py-2 bg-gray-700 text-white text-sm font-medium rounded-full transition duration-300 shadow-lg hover:bg-sky-700 focus:outline-none focus:ring-4 focus:ring-sky-500 focus:ring-opacity-50 whitespace-nowrap" 
+                    onclick="displayConcept('Food Production')">Food Production
+                </button>
+                
+                <button 
+                    id="btn-Temperature-Regulation" 
+                    class="concept-btn px-4 py-2 bg-gray-700 text-white text-sm font-medium rounded-full transition duration-300 shadow-lg hover:bg-sky-700 focus:outline-none focus:ring-4 focus:ring-sky-500 focus:ring-opacity-50 whitespace-nowrap" 
+                    onclick="displayConcept('Temperature Regulation')">Temperature Regulation
+                </button>
+                
+                <button 
+                    id="btn-Human-Habitats-&-Life-Support" 
+                    class="concept-btn px-4 py-2 bg-gray-700 text-white text-sm font-medium rounded-full transition duration-300 shadow-lg hover:bg-sky-700 focus:outline-none focus:ring-4 focus:ring-sky-500 focus:ring-opacity-50 whitespace-nowrap" 
+                    onclick="displayConcept('Human Habitats & Life Support')">Human Habitats & Life Support
+                </button>
+                
+                <!-- Video Presentation Button (Styling it differently for emphasis) -->
+                <button 
+                    id="btn-Video-Presentation" 
+                    class="concept-btn px-6 py-2 bg-red-600 text-white text-sm font-bold rounded-full transition duration-300 shadow-lg hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-500 focus:ring-opacity-50 ml-4 whitespace-nowrap" 
+                    onclick="displayConcept('Video Presentation')">▶️ Watch Video
+                </button>
+
+            </div>
+        </section>
+
+        <!-- Content Display Area -->
+        <section id="display-area" class="flex justify-center items-start min-h-[400px]"></section>
+
+    </main>
+    
+    <footer class="text-center mt-12 pt-4 border-t border-gray-700">
+        <p class="text-sm text-gray-500">Built for the NASA Space Apps Challenge by the Eco Dome Team</p>
+    </footer>
+
+    <!-- Initial call to load the first slide -->
+    <script>
+        // Note: The displayConcept function is called in window.onload above.
+        // This ensures the first slide is visible when the page loads.
+    </script>
+</body>
+</html>
